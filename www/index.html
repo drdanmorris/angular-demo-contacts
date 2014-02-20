@@ -33,7 +33,7 @@
         .contact.ng-enter,
         .contact.ng-leave
         {
-            -webkit-transition: 0.2s linear all;
+            -webkit-transition: 0.15s linear all;
         }
 
 
@@ -51,6 +51,10 @@
             -webkit-transform: translate3d(0,0,0);
         }
 
+        input {
+            margin-right:50px;
+        }
+
         
     </style>
 
@@ -62,27 +66,55 @@
     
     <script type="text/javascript">
 
-        var myApp = angular.module('myApp', ["ngAnimate"]);
-
-        var myController = function($scope) {
-            $scope.title = 'Contacts Demo';
-
-            $scope.contacts = [];
-            $scope.contacts.push({title: 'Dr', firstname: 'Moreland', surname: 'Gibbs'});
-            $scope.contacts.push({title: 'Dr', firstname: 'David', surname: 'Saul'});
-            $scope.contacts.push({title: 'Dr', firstname: 'Setuveni (Junior)', surname: 'TeO'});
-            $scope.contacts.push({title: 'Mrs', firstname: 'Rosaland', surname: 'Reeves'});
-            $scope.contacts.push({title: 'Ms', firstname: 'Michelle', surname: 'Ford'});
-            $scope.contacts.push({title: 'Mr', firstname: 'Liam', surname: 'Williams'});
-            $scope.contacts.push({title: 'Assoc Prof', firstname: 'Peter', surname: 'Bergquist'});
-            $scope.contacts.push({title: 'Mrs', firstname: 'Melissa', surname: 'Gately'});
-            $scope.contacts.push({title: 'Dr', firstname: 'Anwar', surname: 'Sunna'});
-
-            $scope.orderProp = 'surname';
-            $scope.directionProp = 'false';
-        };
+        //======================================
+        // Application
+        //======================================
+        var myApp = angular.module('myApp', ['ngAnimate']);
 
 
+
+        //======================================
+        // Service
+        //======================================
+        myApp.factory('ContactService', ['$q', '$http', 
+            function ($q, $http) {
+
+                var svc = {
+                    get: function() {
+                        var defer = $q.defer();
+                        $http.get('contacts.json').success(function(data) {
+                            defer.resolve(data.contacts);
+                        });
+                        return defer.promise;
+                    }
+                };
+
+                return svc;
+            }
+        ]);
+
+
+        //======================================
+        // Controller
+        //======================================
+        myApp.controller('myController', ['$scope', 'ContactService', 
+            function($scope, contactSvc){
+                $scope.title = 'Contacts Demo';
+
+                contactSvc.get().then(function(data){
+                    $scope.contacts = data;
+                });
+
+                $scope.orderProp = 'surname';
+                $scope.directionProp = 'false';
+            }
+        ]);
+
+
+        
+        //======================================
+        // Filters
+        //======================================
         myApp.filter('filterSurname',[ function () {
             return function (items, searchText) {
                 if(!searchText) return items;
@@ -115,6 +147,7 @@
 
 
         Search: <input type="text" ng-model="searchText.surname" />
+        
         Order By:<select ng-model="orderProp">
                     <option value="firstname">FirstName</option>
                     <option value="surname">Surname</option>
