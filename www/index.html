@@ -3,9 +3,28 @@
 <html>
 <head>
     <title>AngularJS Contacts Demo</title>
-    <link rel="stylesheet" href="app.css" />
+
+    <style>
+        body {
+            font:16px arial;
+            background-color: #272822;
+            margin:20px;
+            color:#f0f0f0;
+        }
+
+        .contact {
+            border: solid 1px #f0f0f0;
+            background-color: #0b5394;
+            color:#f0f0f0;
+            padding:8px 10px;
+            margin-bottom: 5px;
+            width:400px;
+        }
+
+    </style>
+
 </head>
-<body>
+<body ng-app="myApp">
 
     <script src="js/angular.min.js"></script>
     <script src="js/angular-animate.min.js"></script>
@@ -16,13 +35,24 @@
 
         var myController = function($scope) {
             $scope.title = 'Contacts Demo';
+
+            $scope.contacts = [];
+            $scope.contacts.push({title: 'Dr', firstname: 'Moreland', surname: 'Gibbs'});
+            $scope.contacts.push({title: 'Dr', firstname: 'Setuveni (Junior)', surname: 'TeO'});
+            $scope.contacts.push({title: 'Mrs', firstname: 'Rosaland', surname: 'Reeves'});
+            $scope.contacts.push({title: 'Prof', firstname: 'Peter', surname: 'Bergquist'});
+            $scope.contacts.push({title: 'Dr', firstname: 'Anwar', surname: 'Sunna'});
+
         };
 
 
     </script>
 
-    <div>
+    <div ng-controller="myController">
         <h1>{{title}}</h1>
+
+        
+
     </div>
 
 </body>
