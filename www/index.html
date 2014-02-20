@@ -12,14 +12,18 @@
     
     <script type="text/javascript">
 
+        var myApp = angular.module('myApp', []);
+
+        var myController = function($scope) {
+            $scope.title = 'Contacts Demo';
+        };
 
 
     </script>
 
-
-    <h1>Contacts Demo</h1>
-
-
+    <div>
+        <h1>{{title}}</h1>
+    </div>
 
 </body>
 </html>
