@@ -14,11 +14,18 @@
 
         .contact {
             border: solid 1px #f0f0f0;
-            background-color: #0b5394;
+            background-color: #666666;
             color:#f0f0f0;
             padding:8px 10px;
             margin-bottom: 5px;
             width:400px;
+        }
+
+        .contact.Dr {
+            background-color: #38761d;
+        }
+        .contact.Prof {
+            background-color: #b45f06;
         }
 
     </style>
@@ -38,11 +45,14 @@
 
             $scope.contacts = [];
             $scope.contacts.push({title: 'Dr', firstname: 'Moreland', surname: 'Gibbs'});
+            $scope.contacts.push({title: 'Dr', firstname: 'David', surname: 'Saul'});
             $scope.contacts.push({title: 'Dr', firstname: 'Setuveni (Junior)', surname: 'TeO'});
             $scope.contacts.push({title: 'Mrs', firstname: 'Rosaland', surname: 'Reeves'});
-            $scope.contacts.push({title: 'Prof', firstname: 'Peter', surname: 'Bergquist'});
+            $scope.contacts.push({title: 'Ms', firstname: 'Michelle', surname: 'Ford'});
+            $scope.contacts.push({title: 'Mr', firstname: 'Liam', surname: 'Williams'});
+            $scope.contacts.push({title: 'Assoc Prof', firstname: 'Peter', surname: 'Bergquist'});
+            $scope.contacts.push({title: 'Mrs', firstname: 'Melissa', surname: 'Gately'});
             $scope.contacts.push({title: 'Dr', firstname: 'Anwar', surname: 'Sunna'});
-
         };
 
 
@@ -51,6 +61,12 @@
     <div ng-controller="myController">
         <h1>{{title}}</h1>
 
+
+        Search: <input type="text" ng-model="searchText" />
+        <hr/>
+        <div class="contact" ng-class="contact.title" ng-repeat="contact in contacts | filter:searchText">
+                {{contact.title}} {{contact.firstname}} {{contact.surname}}
+        </div>
         
 
     </div>
